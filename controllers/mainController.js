@@ -50,6 +50,25 @@ const getReport = async (req, res) => {
   }
 };
 
+const deleteReport = async (req, res) => {
+  try {
+    const report = await Report.findOneAndDelete({ _id: req.body.id });
+    res.json({ report: report, message: "Successful" });
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+const deleteObservationFromReport = async (req, res) => {
+  try {
+    const report = await Report.findByIdAndUpdate(req.body.id, { $pull: { Observations: req.body.observation } }, { new: true });
+    const observation = await Observation.findOneAndDelete({ _id: req.body.observationId });
+    res.json({ report: report, observation: observation, message: "Successful" });
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 const createVulnerability = async (req, res) => {
   try {
     const vulnerability = await Vulnerability.create(req.body);
@@ -75,5 +94,7 @@ module.exports = {
   updateReport,
   getReport,
   createVulnerability,
-  getAllVulnerabilities
+  getAllVulnerabilities,
+  deleteObservationFromReport,
+  deleteReport
 };
