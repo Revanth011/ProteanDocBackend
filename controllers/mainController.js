@@ -11,16 +11,7 @@ const createObservation = async (req, res) => {
   }
 };
 
-const createReport = async (req, res) => {
-  try {
-    const report = await Report.create(req.body);
-    res.json({ report: report, message: "Successful" });
-  } catch (error) {
-    res.json(error);
-  }
-};
-
-const updateReport = async (req, res) => {
+const addObservation = async (req, res) => {
   try {
     const report = await Report.findByIdAndUpdate({ _id: req.body._id },
       { $push: { Observations: req.body.Observations } },
@@ -32,10 +23,27 @@ const updateReport = async (req, res) => {
   }
 }
 
-const getAllReports = async (req, res) => {
+const updateObservation = async (req, res) => {
   try {
-    const reports = await Report.find({}).sort({ createdAt: -1 });
-    res.json({ reports: reports, message: "Successful" });
+    const report = await Report.findOneAndUpdate({
+      _id: req.body.reportId,
+      "Observations._id": req.body.observationId,
+    },
+      { $set: { "Observations.$": req.body.observation } },
+      { new: true }
+    );
+
+    res.json({ report: report, message: "Successful" });
+
+  } catch (error) {
+    res.json(error);
+  }
+}
+
+const createReport = async (req, res) => {
+  try {
+    const report = await Report.create(req.body);
+    res.json({ report: report, message: "Successful" });
   } catch (error) {
     res.json(error);
   }
@@ -59,11 +67,31 @@ const deleteReport = async (req, res) => {
   }
 };
 
+const getObservation = async (req, res) => {
+  try {
+    const report = await Report.findOne({ _id: req.body.reportId, 'Observations.ObservationId': req.body.ObservationId }, { 'Observations.$': 1 })
+    if (report) {
+      return res.json({ observation: report.Observations[0], message: "Successful" });
+    }
+    res.json({ observation: report.Observations[0], message: "failed!" });
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+const getAllReports = async (req, res) => {
+  try {
+    const reports = await Report.find({}).sort({ createdAt: -1 });
+    res.json({ reports: reports, message: "Successful" });
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 const deleteObservationFromReport = async (req, res) => {
   try {
     const report = await Report.findByIdAndUpdate(req.body.id, { $pull: { Observations: req.body.observation } }, { new: true });
-    const observation = await Observation.findOneAndDelete({ _id: req.body.observationId });
-    res.json({ report: report, observation: observation, message: "Successful" });
+    res.json({ report: report, message: "Successful" });
   } catch (error) {
     res.json(error);
   }
@@ -89,9 +117,11 @@ const getAllVulnerabilities = async (req, res) => {
 
 module.exports = {
   createObservation,
+  getObservation,
   createReport,
   getAllReports,
-  updateReport,
+  addObservation,
+  updateObservation,
   getReport,
   createVulnerability,
   getAllVulnerabilities,

@@ -2,24 +2,29 @@ const express = require("express");
 const router = express.Router();
 const {
     createObservation,
+    addObservation,
+    updateObservation,
+    getObservation,
+    deleteObservationFromReport,
     createReport,
-    getAllReports,
-    updateReport,
     getReport,
     deleteReport,
+    getAllReports,
     createVulnerability,
     getAllVulnerabilities,
-    deleteObservationFromReport
 } = require("../controllers/mainController");
 
 router.post("/createObservation", createObservation);
+router.patch("/addObservation", addObservation);
+router.patch("/updateObservation", updateObservation);
+router.post("/getObservation", getObservation);
+router.patch("/deleteObservationFromReport", deleteObservationFromReport);
 router.post("/createReport", createReport);
-router.get("/getAllReports", getAllReports);
-router.patch("/updateReport", updateReport);
 router.post("/getReport", getReport);
 router.patch("/deleteReport", deleteReport);
+router.get("/getAllReports", getAllReports);
 router.post("/createVulnerability", createVulnerability);
 router.get("/getAllVulnerabilities", getAllVulnerabilities);
-router.patch("/deleteObservationFromReport", deleteObservationFromReport);
+
 
 module.exports = router;

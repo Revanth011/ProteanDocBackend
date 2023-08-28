@@ -44,12 +44,17 @@ app.post("/upload", upload.single("file"), (req, res) => {
 app.post("/download", async (req, res) => {
   Packer.toBuffer(generateDocument(req.body.document)).then((buffer) => {
     fs.writeFileSync("My Document.docx", buffer);
+    fs.copyFile("./My Document.docx", `./backup/${req.body.id}_backup.docx`, (error) => {
+      if (error) {
+        console.log(error)
+      }
+    })
     res.download("My Document.docx");
   });
 });
 
 app.get("/", (req, res) => {
-  res.send("Server is running");
+  res.send(new Date());
 });
 
 app.listen(3000, () => {
