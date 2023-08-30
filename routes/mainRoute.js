@@ -16,7 +16,7 @@ const {
 
 router.post("/createObservation", createObservation);
 router.patch("/addObservation", addObservation);
-router.patch("/updateObservation", updateObservation);
+router.put("/updateObservation", updateObservation);
 router.post("/getObservation", getObservation);
 router.patch("/deleteObservationFromReport", deleteObservationFromReport);
 router.post("/createReport", createReport);

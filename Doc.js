@@ -14,6 +14,9 @@ const {
   AlignmentType,
   convertInchesToTwip,
   SectionType,
+  Footer,
+  Header,
+  PageNumber
 } = docx;
 
 function generateDocument(document) {
@@ -32,44 +35,46 @@ function generateDocument(document) {
       "Informational": "28E00B",
     }
 
-    for (let j = 0; j < document[i].POC.length; j++) {
-      poc.push(
-        new TableRow({
-          children: [
-            new TableCell({
-              columnSpan: 2,
-              children: [
-                new Paragraph({
-                  alignment: AlignmentType.CENTER,
-                  pageBreakBefore: (j + 1) % 2 === 0 ? true : false,
-                  text: document[i].POC[j].text,
-                }),
-                new Paragraph({
-                  alignment: AlignmentType.CENTER,
-                  spacing: {
-                    after: 200,
-                  },
-                  children: [
-                    new ImageRun({
-                      data: fs.readFileSync(`./uploads/${document[i].POC[j].file}`),
-                      transformation: {
-                        width: 600,
-                        height: 350,
-                      },
-                    }),
-                  ],
-                }),
-              ],
-              margins: {
-                top: convertInchesToTwip(0),
-                bottom: convertInchesToTwip(0.1),
-                left: convertInchesToTwip(0),
-                right: convertInchesToTwip(0),
-              },
-            }),
-          ],
-        })
-      );
+    if (document[i].POC.length > 0) {
+      for (let j = 0; j < document[i].POC.length; j++) {
+        poc.push(
+          new TableRow({
+            children: [
+              new TableCell({
+                columnSpan: 2,
+                children: [
+                  new Paragraph({
+                    alignment: AlignmentType.CENTER,
+                    pageBreakBefore: (j + 1) % 2 === 0 ? true : false,
+                    text: document[i].POC[j].text,
+                  }),
+                  new Paragraph({
+                    alignment: AlignmentType.CENTER,
+                    spacing: {
+                      after: 200,
+                    },
+                    children: [
+                      new ImageRun({
+                        data: fs.readFileSync(`./uploads/${document[i].POC[j].file}`),
+                        transformation: {
+                          width: 580,
+                          height: 350,
+                        },
+                      }),
+                    ],
+                  }),
+                ],
+                margins: {
+                  top: convertInchesToTwip(0.1),
+                  bottom: convertInchesToTwip(0.1),
+                  left: convertInchesToTwip(0),
+                  right: convertInchesToTwip(0),
+                },
+              }),
+            ],
+          })
+        );
+      }
     }
 
     for (let k = 0; k < document[i].AffectedURLs.length; k++) {
@@ -90,10 +95,6 @@ function generateDocument(document) {
         new TableRow({
           children: [
             new TableCell({
-              // width: {
-              //   size: 20,
-              //   type: WidthType.PERCENTAGE,
-              // },
               shading: {
                 color: "FFFFFF",
                 fill: "FF0000",
@@ -115,6 +116,10 @@ function generateDocument(document) {
         new TableRow({
           children: [
             new TableCell({
+              width: {
+                size: 20,
+                type: WidthType.PERCENTAGE,
+              },
               children: [
                 new Paragraph({
                   children: [
@@ -358,12 +363,71 @@ function generateDocument(document) {
         type: SectionType.NEXT_PAGE,
       },
       children: [table],
+      headers: {
+        default: new Header({
+          children: [
+            new Paragraph({
+              alignment: AlignmentType.RIGHT,
+              spacing: {
+                after: 200,
+              },
+              children: [
+                new ImageRun({
+                  data: fs.readFileSync("./images/logo.png"),
+                  transformation: {
+                    width: 60,
+                    height: 55,
+                  },
+                }),
+              ],
+            })
+          ],
+        })
+      },
+      footers: {
+        default: new Footer({
+          children: [
+            new Paragraph({
+              children: [
+                new Paragraph({
+                  children: [
+                    new TextRun({
+                      children: ["Confidential"],
+                      italics: true
+                    }),
+                  ],
+                }),
+                new Paragraph({
+                  children: [
+                    new TextRun({
+                      text: "Protean Infosec Services Limited",
+                      bold: true,
+                    }),
+                  ],
+                }),
+                new Paragraph({
+                  children: [
+                    new TextRun({
+                      children: ["(Formerly NSDL e-Governance InfoSec Services Limited)                                                                   Page ", PageNumber.CURRENT, " of ", PageNumber.TOTAL_PAGES],
+                      italics: true
+                    }),
+                  ],
+                }),
+              ],
+              alignment: AlignmentType.LEFT
+            })
+          ],
+        }),
+      },
     });
   }
 
   const doc = new Document({
     sections,
+    creator: "Protean Infosec",
+
   });
   return doc;
 }
+
 module.exports = { generateDocument };

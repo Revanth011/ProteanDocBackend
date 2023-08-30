@@ -27,7 +27,7 @@ const updateObservation = async (req, res) => {
   try {
     const report = await Report.findOneAndUpdate({
       _id: req.body.reportId,
-      "Observations._id": req.body.observationId,
+      "Observations.ObservationId": req.body.observationId,
     },
       { $set: { "Observations.$": req.body.observation } },
       { new: true }
