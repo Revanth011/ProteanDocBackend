@@ -55,7 +55,7 @@ function generateDocument(document) {
                     },
                     children: [
                       new ImageRun({
-                        data: fs.readFileSync(`./uploads/${document[i].POC[j].file}`),
+                        data: document[i].POC[j].file ? fs.readFileSync(`./uploads/${document[i].POC[j].file}`) : "",
                         transformation: {
                           width: 580,
                           height: 350,

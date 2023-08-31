@@ -115,16 +115,48 @@ const getAllVulnerabilities = async (req, res) => {
   }
 };
 
+const getVulnerability = async (req, res) => {
+  try {
+    const vulnerability = await Vulnerability.findOne({ _id: req.body.id });
+    res.json({ vulnerability, message: "Successfull" })
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const deleteVulnerability = async (req, res) => {
+  try {
+    const deleteVulnerability = await Vulnerability.findOneAndDelete( req.body.id , { new: true });
+    res.json({ deleteVulnerability, message: "Successful" });
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+const updateVulnerability = async (req, res) => {
+  try {
+    const vulnerability = await Vulnerability.updateOne({ _id: req.body.id }, { $set: req.body.vulnerability }, { new: true });
+    res.json({ vulnerability, message: "Successfull" })
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
   createObservation,
-  getObservation,
-  createReport,
-  getAllReports,
   addObservation,
   updateObservation,
-  getReport,
-  createVulnerability,
-  getAllVulnerabilities,
+  getObservation,
   deleteObservationFromReport,
-  deleteReport
+  createReport,
+  getReport,
+  deleteReport,
+  getAllReports,
+  createVulnerability,
+  getVulnerability,
+  getAllVulnerabilities,
+  updateVulnerability,
+  deleteVulnerability
 };
