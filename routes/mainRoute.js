@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const {
-    createObservation,
     addObservation,
     updateObservation,
     getObservation,
@@ -17,7 +16,6 @@ const {
     deleteVulnerability
 } = require("../controllers/mainController");
 
-router.post("/createObservation", createObservation);
 router.patch("/addObservation", addObservation);
 router.put("/updateObservation", updateObservation);
 router.post("/getObservation", getObservation);

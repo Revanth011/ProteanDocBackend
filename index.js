@@ -17,7 +17,7 @@ app.use("/", observation);
 //mongodb connection
 mongoose
   .connect(
-    "mongodb+srv://protean:protean0909@cluster0.qs6otio.mongodb.net/?retryWrites=true&w=majority"
+    "mongodb+srv://protean:protean0909@cluster0.qs6otio.mongodb.net/protean-test?retryWrites=true&w=majority"
   )
   .then(() => console.log("connected to db"))
   .catch((err) => console.log(err));
@@ -42,7 +42,20 @@ app.post("/upload", upload.single("file"), (req, res) => {
 });
 
 app.post("/download", async (req, res) => {
-  Packer.toBuffer(generateDocument(req.body.document)).then((buffer) => {
+  const docMap = {
+    "Critical": [],
+    "High": [],
+    "Medium": [],
+    "Low": [],
+    "Informational": []
+  }
+
+  let finalDoc = [];
+  req.body.document.forEach(obser => {
+    docMap[obser.Severity].push(obser)
+  })
+  finalDoc = [...docMap["Critical"], ...docMap["High"], ...docMap["Medium"], ...docMap["Low"], ...docMap["Informational"]]
+  Packer.toBuffer(generateDocument(finalDoc)).then((buffer) => {
     fs.writeFileSync("My Document.docx", buffer);
     fs.copyFile("./My Document.docx", `./backup/${req.body.id}_backup.docx`, (error) => {
       if (error) {

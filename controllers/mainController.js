@@ -1,15 +1,5 @@
-const Observation = require("../models/Observation");
 const Report = require("../models/Report");
 const Vulnerability = require("../models/Vulnerability");
-
-const createObservation = async (req, res) => {
-  try {
-    const observation = await Observation.create(req.body);
-    res.json({ observation: observation, message: "Successful" });
-  } catch (error) {
-    res.json(error);
-  }
-};
 
 const addObservation = async (req, res) => {
   try {
@@ -127,7 +117,7 @@ const getVulnerability = async (req, res) => {
 
 const deleteVulnerability = async (req, res) => {
   try {
-    const deleteVulnerability = await Vulnerability.findOneAndDelete( req.body.id , { new: true });
+    const deleteVulnerability = await Vulnerability.findOneAndDelete(req.body.id, { new: true });
     res.json({ deleteVulnerability, message: "Successful" });
   } catch (error) {
     res.json(error);
@@ -145,7 +135,6 @@ const updateVulnerability = async (req, res) => {
 }
 
 module.exports = {
-  createObservation,
   addObservation,
   updateObservation,
   getObservation,

@@ -2,14 +2,12 @@ const docx = require("docx");
 const fs = require("fs");
 const {
   Document,
-  Packer,
   Paragraph,
   Table,
   TableCell,
   TableRow,
   WidthType,
   ImageRun,
-  VerticalAlign,
   TextRun,
   AlignmentType,
   convertInchesToTwip,
@@ -104,7 +102,7 @@ function generateDocument(document) {
                 new Paragraph({
                   children: [
                     new TextRun({
-                      text: `Observation No. ${document[i].ObservationNo}`,
+                      text: `Observation No. ${i + 1}`,
                       bold: true,
                     }),
                   ],
@@ -126,16 +124,10 @@ function generateDocument(document) {
                     new TextRun({
                       text: "Vulnerability",
                       bold: true,
-                    }),
-                  ],
-                }),
+                    })
+                  ]
+                })
               ],
-              margins: {
-                top: convertInchesToTwip(0),
-                bottom: convertInchesToTwip(0.1),
-                left: convertInchesToTwip(0),
-                right: convertInchesToTwip(0),
-              },
             }),
             new TableCell({
               children: [
@@ -143,6 +135,12 @@ function generateDocument(document) {
                   text: document[i].Vulnerability,
                 }),
               ],
+              margins: {
+                top: convertInchesToTwip(0),
+                bottom: convertInchesToTwip(0.1),
+                left: convertInchesToTwip(0.05),
+                right: convertInchesToTwip(0.1),
+              },
             }),
           ],
         }),
@@ -170,8 +168,8 @@ function generateDocument(document) {
               margins: {
                 top: convertInchesToTwip(0),
                 bottom: convertInchesToTwip(0.1),
-                left: convertInchesToTwip(0),
-                right: convertInchesToTwip(0),
+                left: convertInchesToTwip(0.05),
+                right: convertInchesToTwip(0.1),
               },
             }),
           ],
@@ -209,8 +207,8 @@ function generateDocument(document) {
               margins: {
                 top: convertInchesToTwip(0),
                 bottom: convertInchesToTwip(0.1),
-                left: convertInchesToTwip(0),
-                right: convertInchesToTwip(0),
+                left: convertInchesToTwip(0.05),
+                right: convertInchesToTwip(0.1),
               },
             }),
           ],
@@ -224,23 +222,23 @@ function generateDocument(document) {
                     new TextRun({
                       text: "Description",
                       bold: true,
-                    }),
-                  ],
-                }),
-              ],
-
+                    })
+                  ]
+                })
+              ]
             }),
             new TableCell({
               children: [
                 new Paragraph({
                   text: document[i].Description,
+                  alignment: AlignmentType.JUSTIFIED,
                 }),
               ],
               margins: {
                 top: convertInchesToTwip(0),
                 bottom: convertInchesToTwip(0.1),
-                left: convertInchesToTwip(0),
-                right: convertInchesToTwip(0),
+                left: convertInchesToTwip(0.05),
+                right: convertInchesToTwip(0.1),
               },
             }),
           ],
@@ -262,14 +260,19 @@ function generateDocument(document) {
             new TableCell({
               children: [
                 new Paragraph({
-                  text: document[i].Remediation,
+                  children: [
+                    new TextRun({
+                      text: document[i].Remediation,
+                    }),
+                  ],
+                  alignment: AlignmentType.JUSTIFIED
                 }),
               ],
               margins: {
                 top: convertInchesToTwip(0),
                 bottom: convertInchesToTwip(0.1),
-                left: convertInchesToTwip(0),
-                right: convertInchesToTwip(0),
+                left: convertInchesToTwip(0.05),
+                right: convertInchesToTwip(0.1),
               },
             }),
           ],
@@ -294,8 +297,8 @@ function generateDocument(document) {
               margins: {
                 top: convertInchesToTwip(0),
                 bottom: convertInchesToTwip(0.1),
-                left: convertInchesToTwip(0),
-                right: convertInchesToTwip(0),
+                left: convertInchesToTwip(0.05),
+                right: convertInchesToTwip(0.1),
               },
             }),
           ],
@@ -324,8 +327,8 @@ function generateDocument(document) {
               margins: {
                 top: convertInchesToTwip(0),
                 bottom: convertInchesToTwip(0.1),
-                left: convertInchesToTwip(0),
-                right: convertInchesToTwip(0),
+                left: convertInchesToTwip(0.05),
+                right: convertInchesToTwip(0.1),
               },
             }),
           ],
@@ -351,7 +354,12 @@ function generateDocument(document) {
                   text: "Screenshot shared below.",
                 }),
               ],
-
+              margins: {
+                top: convertInchesToTwip(0),
+                bottom: convertInchesToTwip(0.1),
+                left: convertInchesToTwip(0.05),
+                right: convertInchesToTwip(0.1),
+              },
             }),
           ],
         }),
