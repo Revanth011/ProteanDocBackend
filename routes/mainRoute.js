@@ -7,6 +7,7 @@ const {
     deleteObservationFromReport,
     createReport,
     getReport,
+    getReportsByUser,
     deleteReport,
     getAllReports,
     createVulnerability,
@@ -22,6 +23,7 @@ router.post("/getObservation", getObservation);
 router.patch("/deleteObservationFromReport", deleteObservationFromReport);
 router.post("/createReport", createReport);
 router.post("/getReport", getReport);
+router.post("/getReportsByUser", getReportsByUser);
 router.patch("/deleteReport", deleteReport);
 router.get("/getAllReports", getAllReports);
 router.post("/createVulnerability", createVulnerability);

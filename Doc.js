@@ -42,7 +42,7 @@ function generateDocument(document) {
                 columnSpan: 2,
                 children: [
                   new Paragraph({
-                    alignment: AlignmentType.CENTER,
+                    alignment: AlignmentType.JUSTIFIED,
                     pageBreakBefore: (j + 1) % 2 === 0 ? true : false,
                     text: document[i].POC[j].text,
                   }),
@@ -65,8 +65,8 @@ function generateDocument(document) {
                 margins: {
                   top: convertInchesToTwip(0.1),
                   bottom: convertInchesToTwip(0.1),
-                  left: convertInchesToTwip(0),
-                  right: convertInchesToTwip(0),
+                  left: convertInchesToTwip(0.12),
+                  right: convertInchesToTwip(0.12),
                 },
               }),
             ],
@@ -322,6 +322,7 @@ function generateDocument(document) {
               children: [
                 new Paragraph({
                   text: document[i].References,
+                  alignment: AlignmentType.JUSTIFIED,
                 }),
               ],
               margins: {
@@ -408,7 +409,7 @@ function generateDocument(document) {
                 new Paragraph({
                   children: [
                     new TextRun({
-                      text: "Protean Infosec Services Limited",
+                      text: "Protean InfoSec Services Limited",
                       bold: true,
                     }),
                   ],

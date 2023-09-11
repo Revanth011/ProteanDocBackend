@@ -6,19 +6,22 @@ const docx = require("docx");
 const cors = require("cors");
 const { Packer } = docx;
 const fs = require("fs");
+require('dotenv').config();
 
 app.use(express.json());
 app.use(cors());
 const { generateDocument } = require("./Doc");
 
-const observation = require("./routes/mainRoute");
-app.use("/", observation);
+const Auth = require("./middleware/Auth")
+const report = require("./routes/mainRoute");
+const user = require("./routes/userRoute");
+
+app.use("/v1", Auth, report);
+app.use("/auth", user);
 
 //mongodb connection
 mongoose
-  .connect(
-    "mongodb+srv://protean:protean0909@cluster0.qs6otio.mongodb.net/protean-test?retryWrites=true&w=majority"
-  )
+  .connect(process.env.MDB_URL)
   .then(() => console.log("connected to db"))
   .catch((err) => console.log(err));
 

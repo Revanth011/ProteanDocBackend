@@ -48,6 +48,24 @@ const getReport = async (req, res) => {
   }
 };
 
+const getReportsByUser = async (req, res) => {
+  try {
+    const reports = await Report.find({ CreatedBy: req.body.id }).sort({ updatedAt: -1 });
+    res.json({ reports: reports, message: "Successful" });
+  } catch (error) {
+    res.json(error);
+  }
+}
+
+const getAllReports = async (req, res) => {
+  try {
+    const reports = await Report.find({}).sort({ updatedAt: -1 });
+    res.json({ reports: reports, message: "Successful" });
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 const deleteReport = async (req, res) => {
   try {
     const report = await Report.findOneAndDelete({ _id: req.body.id });
@@ -64,15 +82,6 @@ const getObservation = async (req, res) => {
       return res.json({ observation: report.Observations[0], message: "Successful" });
     }
     res.json({ observation: report.Observations[0], message: "failed!" });
-  } catch (error) {
-    res.json(error);
-  }
-};
-
-const getAllReports = async (req, res) => {
-  try {
-    const reports = await Report.find({}).sort({ createdAt: -1 });
-    res.json({ reports: reports, message: "Successful" });
   } catch (error) {
     res.json(error);
   }
@@ -141,6 +150,7 @@ module.exports = {
   deleteObservationFromReport,
   createReport,
   getReport,
+  getReportsByUser,
   deleteReport,
   getAllReports,
   createVulnerability,

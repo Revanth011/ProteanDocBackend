@@ -15,6 +15,15 @@ const ReportSchema = new mongoose.Schema(
             trim: true,
             required: [true, "Company required"],
         },
+        CreatedBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: [true, "CreatedBy required"],
+            ref: "User"
+        },
+        CreatedByUser: {
+            type: String,
+            required: [true, "CreatedByUser required"],
+        }
     },
     { timestamps: true }
 );
