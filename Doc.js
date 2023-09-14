@@ -322,7 +322,6 @@ function generateDocument(document) {
               children: [
                 new Paragraph({
                   text: document[i].References,
-                  alignment: AlignmentType.JUSTIFIED,
                 }),
               ],
               margins: {
