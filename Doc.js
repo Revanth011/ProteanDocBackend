@@ -111,7 +111,6 @@ function generateDocument(document) {
             }),
           ],
         }),
-
         new TableRow({
           children: [
             new TableCell({
@@ -323,6 +322,7 @@ function generateDocument(document) {
               children: [
                 new Paragraph({
                   text: document[i].References,
+                  alignment: AlignmentType.JUSTIFIED,
                 }),
               ],
               margins: {
