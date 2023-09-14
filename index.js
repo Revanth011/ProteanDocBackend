@@ -9,7 +9,7 @@ const fs = require("fs");
 require('dotenv').config();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: ["http://52.66.57.41", "http://localhost:3000"], optionsSuccessStatus: 200 }));
 const { generateDocument } = require("./Doc");
 
 const Auth = require("./middleware/Auth")

@@ -111,11 +111,12 @@ function generateDocument(document) {
             }),
           ],
         }),
+
         new TableRow({
           children: [
             new TableCell({
               width: {
-                size: 20,
+                size: 30,
                 type: WidthType.PERCENTAGE,
               },
               children: [
@@ -417,7 +418,7 @@ function generateDocument(document) {
                 new Paragraph({
                   children: [
                     new TextRun({
-                      children: ["(Formerly NSDL e-Governance InfoSec Services Limited)                                                                   Page ", PageNumber.CURRENT, " of ", PageNumber.TOTAL_PAGES],
+                      children: ["(Formerly NSDL e-Governance InfoSec Services Limited)                                                                 Page ", PageNumber.CURRENT, " of ", PageNumber.TOTAL_PAGES],
                       italics: true
                     }),
                   ],
