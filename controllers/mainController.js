@@ -89,7 +89,7 @@ const getObservation = async (req, res) => {
 
 const deleteObservationFromReport = async (req, res) => {
   try {
-    const report = await Report.findByIdAndUpdate(req.body.id, { $pull: { Observations: req.body.observation } }, { new: true });
+    const report = await Report.findByIdAndUpdate({ _id: req.body.id }, { $pull: { Observations: req.body.observation } }, { new: true });
     res.json({ report: report, message: "Successful" });
   } catch (error) {
     res.json(error);
@@ -126,7 +126,7 @@ const getVulnerability = async (req, res) => {
 
 const deleteVulnerability = async (req, res) => {
   try {
-    const deleteVulnerability = await Vulnerability.findOneAndDelete(req.body.id, { new: true });
+    const deleteVulnerability = await Vulnerability.findOneAndDelete({ _id: req.body.id }, { new: true });
     res.json({ deleteVulnerability, message: "Successful" });
   } catch (error) {
     res.json(error);
