@@ -115,7 +115,7 @@ function generateDocument(document) {
           children: [
             new TableCell({
               width: {
-                size: 30,
+                size: 20,
                 type: WidthType.PERCENTAGE,
               },
               children: [
@@ -322,6 +322,7 @@ function generateDocument(document) {
               children: [
                 new Paragraph({
                   text: document[i].References,
+                  alignment: AlignmentType.LEFT
                 }),
               ],
               margins: {
